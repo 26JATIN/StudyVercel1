@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:9000/api/v1";  // it does not laoaded check***
+// const BASE_URL = "http://localhost:9000/api/v1";  // it does not laoaded check***
+const BASE_URL = "https://studyvercel1-1.onrender.com/api/v1";
+
 console.log(BASE_URL);
 
 // AUTH ENDPOINTS

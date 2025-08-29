@@ -1,5 +1,7 @@
 // const BASE_URL = "http://localhost:9000/api/v1";  // it does not laoaded check***
-const BASE_URL = "https://studyvercel1-1.onrender.com/api/v1";
+// const BASE_URL = "https://studyvercel1-1.onrender.com/api/v1";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 
 console.log(BASE_URL);
 

@@ -57,9 +57,12 @@ app.get("/", (req, res) => {
 	});
 });
 
+// Export the app for Vercel
+module.exports = app;
 
-app.listen(PORT, () => {
-	console.log(`App is listening at ${PORT}`);
-});
-
-export default app;
+// Only listen when not in production (for local development)
+if (process.env.NODE_ENV !== "production") {
+	app.listen(PORT, () => {
+		console.log(`App is listening at ${PORT}`);
+	});
+}

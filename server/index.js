@@ -12,22 +12,20 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
 
-
-const PORT = process.env.PORT || 4000;
-console.log(process.env.PORT);
-
-
+// Load environment variables
 dotenv.config();
 
+const PORT = process.env.PORT || 4000;
 
+// Initialize database connection
 database.Connect();
- 
 
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin:process.env.FRONTEND_URL||"localhost:3000",
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
   })
 );
@@ -39,7 +37,7 @@ app.use(
 	})
 );
 
-
+// Connect to Cloudinary
 cloudinaryConnect();
 
 

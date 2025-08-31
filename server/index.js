@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+console.log("Express app created");
+
 const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
 const courseRoutes = require("./routes/Course");
@@ -14,6 +16,7 @@ const fileUpload = require("express-fileupload");
 
 // Load environment variables
 dotenv.config();
+console.log("Environment variables loaded");
 
 const PORT = process.env.PORT || 4000;
 
@@ -26,6 +29,8 @@ process.on('unhandledRejection', (err) => {
 database.Connect().catch((err) => {
     console.error("Database connection failed:", err);
 });
+
+console.log("Database connection initiated");
 
 // Middleware
 app.use(express.json());
@@ -40,13 +45,12 @@ app.use(
 app.use(
 	fileUpload({
 		useTempFiles: true,
-		tempFileDir: "/tmp/",
 	})
 );
 
 // Connect to Cloudinary
 cloudinaryConnect();
-
+console.log("Cloudinary connected");
 
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
@@ -54,6 +58,7 @@ app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/reach", contactUsRoute);
 
+console.log("Routes added");
 
 app.get("/", (req, res) => {
 	return res.json({

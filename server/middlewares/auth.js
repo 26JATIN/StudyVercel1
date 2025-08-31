@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const User = require("../Model/User");
+const mongoose = require("mongoose");
 
 dotenv.config();
 
@@ -12,25 +13,35 @@ dotenv.config();
 
 exports.auth = async (req, res, next) => {
 	try {
+		console.log("Auth middleware called");
 		
+		// Check DB connection
+		if (mongoose.connection.readyState !== 1) {
+			console.log("DB not connected, readyState:", mongoose.connection.readyState);
+			return res.status(500).json({ success: false, message: "Database not connected" });
+		}
 		
 		const token =
 			req.cookies.token ||
 			req.body.token ||
-			req.header("Authorization").replace("Bearer ", "");
+			(req.header("Authorization") ? req.header("Authorization").replace("Bearer ", "") : null);
 			
+		console.log("Token:", token ? "Present" : "Missing");
 		
 		if (!token) {
 			return res.status(401).json({ success: false, message: `Token Missing` });
 		}
 
 		try {
-			
+			if (!process.env.JWT_SECRET) {
+				console.log("JWT_SECRET not set");
+				return res.status(500).json({ success: false, message: "Server configuration error" });
+			}
 			const decode = await jwt.verify(token, process.env.JWT_SECRET);
-			console.log(decode);
+			console.log("JWT decoded:", decode);
 			
 			req.user = decode;
-			console.log(req.user);
+			console.log("User set in req");
 		} catch (error) {
 			
 			return res

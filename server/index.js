@@ -17,8 +17,15 @@ dotenv.config();
 
 const PORT = process.env.PORT || 4000;
 
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err) => {
+    console.error('Unhandled Promise Rejection:', err);
+});
+
 // Initialize database connection
-database.Connect();
+database.Connect().catch((err) => {
+    console.error("Database connection failed:", err);
+});
 
 // Middleware
 app.use(express.json());
